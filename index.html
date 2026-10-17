@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEO-чек-лист за 10 минут</title>
+<meta name="description" content="Проверьте любой сайт за 10 минут с телефона: 6 простых шагов и бесплатные инструменты Google.">
+<meta name="theme-color" content="#CB2E0B">
+<style>
+  :root {
+    --acc: #CB2E0B; --acc-soft: #FBEAE6; --ink: #1F2328; --muted: #6B7280; --line: #E5E7EB;
+    --card: #F6F7F9; --bg: #FFFFFF; --green: #2FA36B; --yellow: #E8B931; --red: #D64545;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --acc: #FF7A5C; --acc-soft: #3A2420; --ink: #ECEEF1; --muted: #A3A9B3; --line: #2E343C; --card: #1E2329; --bg: #14181C; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 26px; line-height: 1.2; margin: 6px 0 6px; }
+  .lead { color: var(--muted); margin: 0 0 18px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin: 12px 0 6px; }
+  input { width: 100%; font: inherit; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); }
+  input:focus { outline: none; border-color: var(--acc); }
+  .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .progress { display: flex; align-items: center; gap: 10px; margin: 22px 0 6px; font-size: 14px; color: var(--muted); }
+  .bar { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--acc); transition: width .25s; }
+  .check { background: var(--card); border-radius: 16px; padding: 16px; margin-top: 12px; border: 2px solid transparent; }
+  .check[data-mark="g"] { border-color: var(--green); }
+  .check[data-mark="y"] { border-color: var(--yellow); }
+  .check[data-mark="r"] { border-color: var(--red); }
+  .head { display: flex; gap: 12px; align-items: flex-start; }
+  .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--acc); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check h2 { font-size: 17px; margin: 3px 0 4px; }
+  .how { font-size: 14px; color: var(--muted); margin: 0; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+  .tool { font: inherit; font-size: 14px; font-weight: 600; text-decoration: none; color: var(--acc); background: var(--acc-soft); border: 0; border-radius: 10px; padding: 9px 12px; cursor: pointer; }
+  .tool[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+  .marks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .mark { font: inherit; font-size: 12.5px; white-space: nowrap; padding: 10px 2px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .mark::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--c); flex: none; }
+  .mark[data-v="g"] { --c: var(--green); } .mark[data-v="y"] { --c: var(--yellow); } .mark[data-v="r"] { --c: var(--red); }
+  .mark.on { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--bg)); font-weight: 700; }
+  .result { margin-top: 24px; padding: 18px 16px; border-radius: 16px; background: var(--acc-soft); }
+  .result h2 { margin: 0 0 8px; font-size: 19px; }
+  .score { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; margin-bottom: 10px; }
+  .score span { white-space: nowrap; }
+  .score span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; background: var(--c); }
+  ol.fix { margin: 6px 0 0; padding-left: 20px; } ol.fix li { margin: 6px 0; }
+  .row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .btn { font: inherit; font-weight: 700; padding: 11px 14px; border-radius: 12px; border: 0; cursor: pointer; background: var(--acc); color: #fff; }
+  .btn.ghost { background: transparent; color: var(--acc); border: 1.5px solid var(--acc); }
+  footer { margin-top: 28px; font-size: 12px; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>SEO-чек-лист за 10 минут</h1>
+  <p class="lead">Проверьте любой сайт с телефона: 6 шагов, бесплатные инструменты Google. Кнопки сами откроют нужную проверку.</p>
+
+  <label for="site">Адрес сайта</label>
+  <input id="site" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="например, yulchibaev.uz">
+  <label for="query">Услуга + город — как ищут клиенты</label>
+  <input id="query" autocomplete="off" placeholder="например, кофейня Ташкент">
+  <label for="name">Название компании — для Google Maps</label>
+  <input id="name" autocomplete="off" placeholder="например, Events by Yulchibaev">
+  <p class="hint">Совет: поиск лучше открывать в режиме инкогнито — тогда Google не подстраивается под вашу историю.</p>
+
+  <div class="progress"><span id="count">Проверено 0 из 6</span><div class="bar"><i id="fill"></i></div></div>
+  <div id="checks"></div>
+
+  <section class="result" id="result" hidden>
+    <h2>Итог</h2>
+    <div class="score" id="score"></div>
+    <div id="fixWrap"><strong>Что исправить первым:</strong><ol class="fix" id="fix"></ol></div>
+    <div class="row">
+      <button class="btn" id="copy" type="button">Скопировать итог</button>
+      <button class="btn ghost" id="reset" type="button">Начать заново</button>
+    </div>
+  </section>
+
+  <footer>What Is SEO and Why Does It Matter? · Аббос Валиев</footer>
+</main>
+
+<script>
+const CHECKS = [
+  { title: 'Сайт есть в Google?', how: 'Откройте поиск site:домен. Нет результатов — Google не знает о сайте. Мало страниц — можно лучше.',
+    tools: d => [[d.site ? 'site:' + d.site : 'Открыть site:домен', d.site && g('site:' + d.site)]],
+    fix: 'Подключите Google Search Console и отправьте туда sitemap.xml — так Google быстрее узнает о сайте.' },
+  { title: 'Сниппет понятен?', how: 'В той же выдаче посмотрите заголовок и описание главной страницы: сразу ясно, что это, где и для кого?',
+    tools: d => [['Открыть выдачу', d.site && g('site:' + d.site)]],
+    fix: 'Перепишите title и description: услуга + город + название. Например: «Кофейня в Ташкенте — Название».' },
+  { title: 'Находится по «услуга + город»?', how: 'Найдите сайт по запросу, которым ищут клиенты. Первая страница — хорошо, дальше — можно лучше, нет вообще — исправить.',
+    tools: d => [['Искать в Google', d.query && g(d.query)]],
+    fix: 'Сделайте отдельную страницу под главную услугу и укажите город в заголовке и в тексте.' },
+  { title: 'Удобен и быстр на телефоне?', how: 'PageSpeed Insights, вкладка Mobile. Performance 90+ — хорошо, 50–89 — можно лучше, ниже 50 — исправить. Проверка идёт до минуты.',
+    tools: d => [['Открыть PageSpeed', d.site && 'https://pagespeed.web.dev/report?url=' + encodeURIComponent('https://' + d.site) + '&form_factor=mobile']],
+    fix: 'Сожмите фото и видео, уберите лишние скрипты — разработчик может пройтись по советам PageSpeed.' },
+  { title: 'Есть карточка в Google Maps?', how: 'Найдите компанию в картах: есть фото, часы работы, отзывы и ответы владельца на них?',
+    tools: d => [['Открыть Google Maps', (d.name || d.site) && 'https://www.google.com/maps/search/' + encodeURIComponent(d.name || d.site)]],
+    fix: 'Создайте или заполните карточку в Google Business Profile: категория, часы, фото — и отвечайте на отзывы.' },
+  { title: 'Есть robots.txt и sitemap.xml?', how: 'Открылся текст с правилами или список страниц — хорошо. Ошибка 404 или главная страница вместо файла — исправить.',
+    tools: d => [['robots.txt', d.site && 'https://' + d.site + '/robots.txt'], ['sitemap.xml', d.site && 'https://' + d.site + '/sitemap.xml']],
+    fix: 'Попросите разработчика добавить robots.txt и sitemap.xml — это несколько минут работы.' },
+];
+const MARK = { g: 'Хорошо', y: 'Можно лучше', r: 'Исправить' };
+const g = q => 'https://www.google.com/search?q=' + encodeURIComponent(q);
+const $ = id => document.getElementById(id);
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem('seo-check') || '{}'); } catch (e) { return {}; } },
+  set(v) { try { localStorage.setItem('seo-check', JSON.stringify(v)); } catch (e) {} },
+};
+let state = Object.assign({ site: '', query: '', name: '', marks: {} }, store.get());
+
+function cleanSite(v) {
+  return v.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').split(/[\/?#\s]/)[0].toLowerCase();
+}
+function data() { return { site: cleanSite(state.site), query: state.query.trim(), name: state.name.trim() }; }
+
+function render() {
+  const d = data();
+  $('checks').innerHTML = CHECKS.map((c, i) => `
+    <article class="check" data-mark="${state.marks[i] || ''}">
+      <div class="head"><div class="num">${i + 1}</div><div><h2>${c.title}</h2><p class="how">${c.how}</p></div></div>
+      <div class="tools">${c.tools(d).map(([label, url]) => url
+        ? `<a class="tool" href="${url}" target="_blank" rel="noopener">${label} ↗</a>`
+        : `<span class="tool" aria-disabled="true">${label}</span>`).join('')}</div>
+      <div class="marks">${Object.keys(MARK).map(v => `<button type="button" class="mark ${state.marks[i] === v ? 'on' : ''}" data-i="${i}" data-v="${v}">${MARK[v]}</button>`).join('')}</div>
+    </article>`).join('');
+  const done = Object.keys(state.marks).length;
+  $('count').textContent = `Проверено ${done} из ${CHECKS.length}`;
+  $('fill').style.width = (done / CHECKS.length * 100) + '%';
+  renderResult(done);
+}
+
+function renderResult(done) {
+  $('result').hidden = done === 0;
+  if (!done) return;
+  const n = v => Object.values(state.marks).filter(m => m === v).length;
+  $('score').innerHTML = `<span style="--c:var(--green)">${n('g')} хорошо</span><span style="--c:var(--yellow)">${n('y')} можно лучше</span><span style="--c:var(--red)">${n('r')} исправить</span>`;
+  const order = [...CHECKS.keys()].filter(i => state.marks[i] === 'r').concat([...CHECKS.keys()].filter(i => state.marks[i] === 'y'));
+  $('fixWrap').hidden = order.length === 0;
+  $('fix').innerHTML = order.slice(0, 3).map(i => `<li><strong>${CHECKS[i].title}</strong> ${CHECKS[i].fix}</li>`).join('');
+}
+
+function summary() {
+  const d = data();
+  const lines = [`SEO-проверка: ${d.site || 'сайт не указан'}`];
+  CHECKS.forEach((c, i) => lines.push(`${i + 1}. ${c.title} — ${state.marks[i] ? MARK[state.marks[i]] : 'не проверено'}`));
+  return lines.join('\n');
+}
+
+['site', 'query', 'name'].forEach(k => {
+  $(k).value = state[k];
+  $(k).addEventListener('input', e => { state[k] = e.target.value; store.set(state); render(); });
+});
+$('checks').addEventListener('click', e => {
+  const b = e.target.closest('.mark'); if (!b) return;
+  const i = b.dataset.i, v = b.dataset.v;
+  if (state.marks[i] === v) delete state.marks[i]; else state.marks[i] = v;
+  store.set(state); render();
+});
+$('copy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(summary()); $('copy').textContent = 'Скопировано ✓'; }
+  catch (e) { prompt('Скопируйте итог:', summary()); }
+  setTimeout(() => { $('copy').textContent = 'Скопировать итог'; }, 1800);
+});
+$('reset').addEventListener('click', () => {
+  state = { site: '', query: '', name: '', marks: {} }; store.set(state);
+  ['site', 'query', 'name'].forEach(k => { $(k).value = ''; });
+  render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+render();
+</script>
+</body>
+</html>
