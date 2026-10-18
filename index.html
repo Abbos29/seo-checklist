@@ -107,9 +107,24 @@ const CHECKS = [
 const MARK = { g: 'Хорошо', y: 'Можно лучше', r: 'Исправить' };
 const g = q => 'https://www.google.com/search?q=' + encodeURIComponent(q);
 const $ = id => document.getElementById(id);
+// answers survive a page refresh twice over: in localStorage and in the URL hash
+// (the hash also works where storage is blocked — private mode, in-app browsers)
+const pack = v => btoa(unescape(encodeURIComponent(JSON.stringify(v)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unpack = h => JSON.parse(decodeURIComponent(escape(atob(h.replace(/-/g, '+').replace(/_/g, '/')))));
 const store = {
-  get() { try { return JSON.parse(localStorage.getItem('seo-check') || '{}'); } catch (e) { return {}; } },
-  set(v) { try { localStorage.setItem('seo-check', JSON.stringify(v)); } catch (e) {} },
+  get() {
+    try { const v = JSON.parse(localStorage.getItem('seo-check') || 'null'); if (v) return v; } catch (e) {}
+    try { if (location.hash.length > 1) return unpack(location.hash.slice(1)); } catch (e) {}
+    return {};
+  },
+  set(v) {
+    try { localStorage.setItem('seo-check', JSON.stringify(v)); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.search + '#' + pack(v)); } catch (e) {}
+  },
+  clear() {
+    try { localStorage.removeItem('seo-check'); } catch (e) {}
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  },
 };
 let state = Object.assign({ site: '', query: '', name: '', marks: {} }, store.get());
 
@@ -167,7 +182,7 @@ $('copy').addEventListener('click', async () => {
   setTimeout(() => { $('copy').textContent = 'Скопировать итог'; }, 1800);
 });
 $('reset').addEventListener('click', () => {
-  state = { site: '', query: '', name: '', marks: {} }; store.set(state);
+  state = { site: '', query: '', name: '', marks: {} }; store.clear();
   ['site', 'query', 'name'].forEach(k => { $(k).value = ''; });
   render(); window.scrollTo({ top: 0, behavior: 'smooth' });
 });
